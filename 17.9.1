@@ -1,0 +1,46 @@
+def search(intervals, num_person, left, right):
+    if left > right:
+        return False
+
+    middle = (right + left) // 2
+    if intervals[middle] == num_person:
+        return middle
+    elif num_person < intervals[middle]:
+        return search(intervals, num_person, left, middle - 1)
+    else:
+        return search(intervals, num_person, middle + 1, right)
+
+num_person = int(input('Введите номер: '))
+intervals = sorted(list(map(int, input('Введите интервал: ').split())))
+print(f'Введённый интервал: {intervals}\n')
+
+if num_person in intervals:
+    index_person = search(intervals, num_person, 0, len(intervals) - 1)
+    if index_person == (len(intervals) - 1):
+        print(f'Число {intervals[index_person]}[{index_person}] - наибольшее! Оно стоит после числа {intervals[index_person - 1]}[{index_person - 1}]\n')
+
+    elif index_person == 0:
+        print(f"Число {intervals[index_person]}[{index_person}] - наименьшее! Оно стоит перед числом {intervals[index_person + 1]}[{index_person + 1}]\n")
+
+    else:
+        print(f'Число {intervals[index_person]}[{index_person}] есть в списке и оно стоит между {intervals[index_person - 1]}[{index_person - 1}] и {intervals[index_person + 1]}[{index_person + 1}]\n')
+
+
+elif num_person not in intervals:
+    print(f'Так как числа {num_person} нет в списке, мы для упращения програмы добавим его в интервал')
+    intervals.append(num_person)
+    intervals = sorted(intervals)
+    print(f'Новый интервал: {intervals}')
+
+    index_person = search(intervals, num_person, 0, len(intervals) - 1)
+
+    if index_person == (len(intervals) - 1):
+        print(f'Число {intervals[index_person]}[{index_person}] можно поставить после числа {intervals[index_person - 1]}[{index_person - 1}]\n')
+
+    elif index_person == 0:
+        print(f"Число {intervals[index_person]}[{index_person}] можно поставить перед числом {intervals[index_person + 1]}[{index_person + 1}]\n")
+
+    else:
+        print(f'Число {intervals[index_person]}[{index_person}] можно поставить между {intervals[index_person - 1]}[{index_person - 1}] и {intervals[index_person + 1]}[{index_person + 1}]\n')
+
+print('P.S - для удобства индексы чисел я буду записывать в []')
